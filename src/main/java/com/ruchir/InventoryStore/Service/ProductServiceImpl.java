@@ -90,21 +90,16 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = getProduct(id);
-        int newQty = product.getStockQuantity() - qty;
 
         if (newQty < 0) {
             throw new InvalidStockOperationException("Insufficient stock available");
         }
 
-        if (product.getLowStockThreshold() > 0 && newQty < product.getLowStockThreshold()) {
-            throw new InvalidStockOperationException("Cannot decrease: would go below threshold of "
-                    + product.getLowStockThreshold());
         }
 
         product.setStockQuantity(newQty);
         return repo.save(product);
     }
-
 
 
     @Override
